@@ -1,0 +1,13 @@
+#board{
+   background-color:rgb(98, 98, 106);
+   height:600px;
+   width:600px;
+}
+.boardGrid{
+   background-color:rgb(162, 162, 169);
+   height:125px;
+   width:125px;
+   margin-left:20px;
+   margin-top:20px;
+   float:left;
+}
