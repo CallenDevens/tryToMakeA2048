@@ -11,7 +11,7 @@ $(document).ready(function(){
 });
 
 function numberGrid(x,y){
-    this.number=Math.random()>0.5?4:2;
+    this.number=Math.random()>0.8?4:2;
 	this.x=x;
 	this.y=y;
 }
@@ -23,6 +23,7 @@ function boardGrid(x,y){
     this.grid=null;
 	this.state=0;
 }
+
 boardGrid.prototype.receiveNumber=function(numberGrid){
 	this.grid=numberGrid;
 }
@@ -55,12 +56,19 @@ board.prototype.randomNewNumGrid=function(){
 	var newNumber=new numberGrid(x,y);
 	this.addNumberGrid(newNumber)
 }
+//add number to board
 board.prototype.addNumberGrid=function(newNumber)
 {
 	newNumber.div=document.createElement("div");
+	newNumber.div.className="numberGrid";
+	newNumber.div.style.top=20+(20+125)*newNumber.y+"px";
+	newNumber.div.style.left=20+(20+125)*newNumber.x+"px";
 	newNumber.div.innerHTML=newNumber.number;
+	
+	// set the number to the grid and set its state "occupied(1)";
 	this.map[newNumber.x][newNumber.y].grid=newNumber;
-	this.map[newNumber.x][newNumber.y].div.appendChild(newNumber.div);
+	this.map[newNumber.x][newNumber.y].state=1;
+	this.div.appendChild(newNumber.div);
 }
 
 board.prototype.isPositionAvailable=function(x,y){
@@ -73,3 +81,30 @@ board.prototype.isPositionAvailable=function(x,y){
 		return false;
 	}
 }
+board.prototype.moveUp()
+{
+	for(var i=0;i<4;i++){
+		for(var j=0;j<4;j++)
+		{
+			
+		}
+	}
+}
+/*
+Character codes:
+
+37 - left
+
+38 - up
+
+39 - right
+
+40 - down
+*/
+$(document).keydown(function(e){
+
+    if (e.keyCode == 37) { 
+       alert( "left pressed" );
+       return false;
+    }
+});
