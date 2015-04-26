@@ -29,6 +29,19 @@ $(document).ready(function(){
            gameBoard.moveUp();
            return false;
         }
+		if(e.keyCode==37){
+			gameBoard.moveLeft();
+			return false;
+		}
+		/*
+		if(e.keyCode==39){
+			gameBoard.moveRight();
+			return false;
+		}
+		if(e.keyCode==40){
+			gameBoard.moveDown();
+		}
+		*/
     });
 });
 
@@ -127,6 +140,20 @@ board.prototype.moveUp=function()
 	for(var i=0;i<3;i++){
 		for(var j=0;j<4;j++)
 		{
+			for(var k=i+1;k<4;k++)//error here : started from k=i, resulted in a compaison between two identical object.
+            {
+				if(map[k][j].grid&&map[i][j].grid){
+					//test
+					//alert("i:"+i+";  k:"+k+"  j:"+j);
+					if(map[k][j].grid.number==map[i][j].grid.number)
+				    {
+					    this.merge(map[i][j],map[k][j]);
+			        }
+					//only merge once
+					break;
+				}
+			}
+			/* logic error fail to merge 2 numberGrid apart from one another
 			if(map[i][j].grid&&map[i+1][j].grid)
 			{
 				if(map[i][j].grid.number==map[i+1][j].grid.number)
@@ -134,6 +161,7 @@ board.prototype.moveUp=function()
 				    this.merge(map[i][j],map[i+1][j]);
 			    }
 			}
+			*/
 		}
 	}
 	this.resetLayOutUp();
@@ -222,5 +250,77 @@ board.prototype.merge=function(boardGrid1,boardGrid2)
 }
 
 
-
-
+//TODO :logic  error exists 
+board.prototype.moveLeft=function()
+{
+	var map=this.map;
+	for(var i=0;i<4;i++){
+		for(var j=0;j<3;j++)
+		{
+			for(var k=j+1;k<4;k++)
+            {
+				if(map[i][j].grid&&map[i][k].grid){
+					//test
+					//alert("i:"+i+";  k:"+k+"  j:"+j);
+					if(map[i][j].grid.number==map[i][k].grid.number)
+				    {
+					    this.merge(map[i][j],map[i][k]);
+			        }
+				}
+			}
+		}
+	}
+	this.resetLayOutLeft();
+	this.randomNewNumGrid();
+    //test
+	this.checkState();
+}
+board.prototype.resetLayOutLeft=function()
+{
+	map=this.map;
+	var moveableNumber=null;
+	
+	for(var i=0;i<4;i++){
+	    for(var j=0;j<3;j++)
+	    {
+             if(map[i][j].state==0)
+			 {
+                 for(var k=j;k<4;k++)
+                 {
+					 if(map[i][k].state==1)
+					 {
+						 moveableNumber=map[i][k];
+						 break;
+					 }
+				 }
+			     if(moveableNumber!=null)
+			     {   
+		             try{
+			    	     moveableNumber.grid.x=i;
+			    	     moveableNumber.grid.y=j;
+			    		 map[i][j].grid=moveableNumber.grid;
+			    	     map[i][j].state=1;
+			                 
+			             //reset map state
+			             moveableNumber.grid=null;
+			             moveableNumber.state=0;
+			             	 
+			             //put div to new position;
+						 $( map[i][j].grid.div).animate({
+							 top: map[i][j].top,
+							 left:map[i][j].left
+						 });
+			             //map[i][j].grid.div.style.top=map[i][j].top+"px";
+			             //map[i][j].grid.div.style.left=map[i][j].left+"px";
+			         }
+			    	 catch(e)
+			    	 {//alert("i:"+i+",j:"+j);
+					 } 
+			    	 moveableNumber=null;
+			     }					 
+			 }
+			 
+		}
+			
+	}
+}
