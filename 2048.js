@@ -11,6 +11,18 @@ var position =new Array (
     new Array(new boardGrid(3,0),new boardGrid(3,1),new boardGrid(3,2),new boardGrid(3,3))
 
 );
+var color=new Array();
+color['2']="rgb(145, 149, 142)";
+color['4']="rgb(141, 140, 88)";
+color['8']="rgb(253, 102, 38)";
+color['16']="rgb(230, 69, 0)";
+color['32']="rgb(219, 0, 0)";
+color['64']="rgb(158, 0, 0)";
+color['128']="rgb(158, 148, 0)";
+color['256']="rgb(209, 195, 0)";
+color['512']="rgb(255, 239, 20)";
+color['1024']="rgb(153, 230, 0)";
+color['2048']="rgb(0, 61, 230)";
 $(document).ready(function(){
     var gameBoard=new board(position);
     /*
@@ -86,7 +98,8 @@ function board(position){
         for(var j=0;j<4;j++)
         {
             this.map[i][j].div=document.createElement("div");
-            this.map[i][j].div.innerHTML=this.map[i][j].state;
+            //test
+			//this.map[i][j].div.innerHTML=this.map[i][j].state;
             this.map[i][j].div.className="boardGrid";
             this.div.appendChild(this.map[i][j].div);
         }
@@ -120,7 +133,7 @@ board.prototype.addNumberGrid=function(newNumber)
     this.map[newNumber.x][newNumber.y].state=1;
     this.div.appendChild(newNumber.div);
 
-    $(newNumber.div).show("fast");
+    $(newNumber.div).show();
 }
 
 board.prototype.isPositionAvailable=function(x,y){
@@ -167,7 +180,7 @@ board.prototype.moveUp=function()
     this.resetLayOutUp();
     this.randomNewNumGrid();
     //test
-    this.checkState();
+    //this.checkState();
 }
 //test
 board.prototype.checkState=function(){
@@ -275,7 +288,7 @@ board.prototype.moveLeft=function()
     this.resetLayOutLeft();
     this.randomNewNumGrid();
     //test
-    this.checkState();
+    //this.checkState();
 }
 board.prototype.resetLayOutLeft=function()
 {
@@ -351,7 +364,7 @@ board.prototype.moveRight=function()
     this.resetLayOutRight();
     this.randomNewNumGrid();
     //test
-    this.checkState();
+    //this.checkState();
 }
 board.prototype.resetLayOutRight=function()
 {
@@ -428,7 +441,7 @@ board.prototype.moveDown=function()
     this.resetLayOutDown();
     this.randomNewNumGrid();
     //test
-    this.checkState();
+    //this.checkState();
 }
 board.prototype.resetLayOutDown=function()
 {
