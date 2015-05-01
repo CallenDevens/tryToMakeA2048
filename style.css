@@ -14,10 +14,12 @@
 }
 .numberGrid{
    position:absolute;
-   height:124px;
+   padding-top:30px;
+   height:94px;
    width:124px;
    border:1px solid white;
-   font-size:24px;
+   font-family:Georgia, Serif;
+   font-size:50px;
    text-align:center;
    color:white;
    display:none;

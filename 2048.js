@@ -4,6 +4,8 @@
 @version 1.0
 */
 //use 2-demension array to represent the whole game broad coordinate
+var newNumFlag=0;
+
 var position =new Array (
     new Array(new boardGrid(0,0),new boardGrid(0,1),new boardGrid(0,2),new boardGrid(0,3)),
     new Array(new boardGrid(1,0),new boardGrid(1,1),new boardGrid(1,2),new boardGrid(1,3)),
@@ -23,6 +25,12 @@ color['256']="rgb(209, 195, 0)";
 color['512']="rgb(255, 239, 20)";
 color['1024']="rgb(153, 230, 0)";
 color['2048']="rgb(0, 61, 230)";
+function changeColor(numberGrid)
+{
+//	console.log("color:"+numberGrid.div.style.bgColor);
+//	console.log(color[numberGrid.number]);
+	numberGrid.div.style.backgroundColor=color[numberGrid.number];
+}
 $(document).ready(function(){
     var gameBoard=new board(position);
     /*
@@ -78,15 +86,6 @@ function boardGrid(x,y){
     this.state=0;
 }
 
-//abandoned
-/*
-boardGrid.prototype.receiveNumber=function(numberGrid){
-    this.grid=numberGrid;
-}
-*/
-
-
-
 // the Game board
 function board(position){
     this.map=position;
@@ -127,13 +126,14 @@ board.prototype.addNumberGrid=function(newNumber)
     newNumber.div.style.top=20+(20+125)*newNumber.x+"px";
     newNumber.div.style.left=20+(20+125)*newNumber.y+"px";
     newNumber.div.innerHTML=newNumber.number;
+    changeColor(newNumber);
 
     // set the number to the grid and set its state "occupied(1)";
     this.map[newNumber.x][newNumber.y].grid=newNumber;
     this.map[newNumber.x][newNumber.y].state=1;
     this.div.appendChild(newNumber.div);
 
-    $(newNumber.div).show();
+    setTimeout(function(){$(newNumber.div).show("fast")},200);
 }
 
 board.prototype.isPositionAvailable=function(x,y){
@@ -178,9 +178,12 @@ board.prototype.moveUp=function()
         }
     }
     this.resetLayOutUp();
-    this.randomNewNumGrid();
-    //test
-    //this.checkState();
+	if(newNumFlag==1){
+        this.randomNewNumGrid();
+		newNumFlag=0;
+    }
+	//test
+//    this.checkState();
 }
 //test
 board.prototype.checkState=function(){
@@ -208,6 +211,7 @@ board.prototype.resetLayOutUp=function()
                  {
                      if(map[k][j].state==1)
                      {
+						 newNumFlag=1;
                          moveableNumber=map[k][j];
                          break;
                      }
@@ -247,6 +251,7 @@ board.prototype.resetLayOutUp=function()
 
 board.prototype.merge=function(boardGrid1,boardGrid2)
 {
+	newNumFlag=1;
     var numberGrid1=boardGrid1.grid;
     var numberGrid2=boardGrid2.grid;
     $(numberGrid2.div).animate(
@@ -259,6 +264,7 @@ board.prototype.merge=function(boardGrid1,boardGrid2)
     //change number
     numberGrid1.number+=numberGrid2.number;
     numberGrid1.div.innerHTML=numberGrid1.number;
+	changeColor(numberGrid1);
 
     boardGrid2.state=0;
     boardGrid2.grid=null;
@@ -286,9 +292,12 @@ board.prototype.moveLeft=function()
         }
     }
     this.resetLayOutLeft();
-    this.randomNewNumGrid();
+	if(newNumFlag==1){
+        this.randomNewNumGrid();
+		newNumFlag=0;
+    }
     //test
-    //this.checkState();
+ //   this.checkState();
 }
 board.prototype.resetLayOutLeft=function()
 {
@@ -304,6 +313,7 @@ board.prototype.resetLayOutLeft=function()
                  {
                      if(map[i][k].state==1)
                      {
+						 newNumFlag=1;
                          moveableNumber=map[i][k];
                          break;
                      }
@@ -362,9 +372,12 @@ board.prototype.moveRight=function()
         }
     }
     this.resetLayOutRight();
-    this.randomNewNumGrid();
+	if(newNumFlag==1){
+        this.randomNewNumGrid();
+		newNumFlag=0;
+    }
     //test
-    //this.checkState();
+ //   this.checkState();
 }
 board.prototype.resetLayOutRight=function()
 {
@@ -380,8 +393,7 @@ board.prototype.resetLayOutRight=function()
                  {
                      if(map[i][k].state==1)
                      {
-						 //test
-						 //alert("i: "+i+"  k:"+k);
+						 newNumFlag=1;
                          moveableNumber=map[i][k];
                          break;
                      }
@@ -439,9 +451,12 @@ board.prototype.moveDown=function()
         }
     }
     this.resetLayOutDown();
-    this.randomNewNumGrid();
+	if(newNumFlag==1){
+        this.randomNewNumGrid();
+		newNumFlag=0;
+    }
     //test
-    //this.checkState();
+ //   this.checkState();
 }
 board.prototype.resetLayOutDown=function()
 {
@@ -457,6 +472,7 @@ board.prototype.resetLayOutDown=function()
                  {
                      if(map[k][j].state==1)
                      {
+						 newNumFlag=1;
                          moveableNumber=map[k][j];
                          break;
                      }
